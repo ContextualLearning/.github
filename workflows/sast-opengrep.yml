@@ -1,0 +1,17 @@
+name: SAST (Opengrep)
+on:
+  pull_request: { types: [opened, synchronize, reopened] }
+  push: { branches: [main] }
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  sast:
+    uses: ContextualLearning/LCGitHubWorkflows/.github/workflows/opengrep-ci.yml@main
+    with:
+      paths: .
+      # Use your central rules URL or a local file:
+      config: https://raw.githubusercontent.com/ContextualLearning/LCGitHubWorkflows/refs/heads/main/.opengrep/baseline.yml
+      fail_on: "ERROR"

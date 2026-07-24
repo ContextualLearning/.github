@@ -1,0 +1,29 @@
+name: Accessibility (a11y)
+# Canonical caller template for the shared reusable a11y gate (sibling of
+# sast-opengrep.yml). Copy this into each frontend repo as
+# .github/workflows/a11y.yml, then set serve_command for that repo's framework.
+#
+# The reusable workflow lives in LCGitHubWorkflows (like opengrep-ci.yml).
+# Posture is report-only during the pre-SOC2-window rollout: findings appear in
+# the PR job summary + artifacts and the check stays green. Flip fail_on_* to
+# true once a repo's baseline is clean to make it a hard gate.
+#
+# serve_command per framework:
+#   Next.js (StudyClues, client/admin dashboards):  'npm run start'
+#   Create React App (PracticeClues):               'npx --yes serve -s build -l 3000'
+on:
+  pull_request: { types: [opened, synchronize, reopened] }
+  push: { branches: [main] }
+
+permissions:
+  contents: read
+
+jobs:
+  a11y:
+    uses: ContextualLearning/LCGitHubWorkflows/.github/workflows/a11y-ci.yml@main
+    with:
+      node_version: '20'
+      serve_command: 'npm run start'   # <-- CRA repos: 'npx --yes serve -s build -l 3000'
+      ready_url: 'http://localhost:3000'
+      fail_on_a11y: false              # report-only (dual-mode: flip to true = enforce)
+      fail_on_lint: false

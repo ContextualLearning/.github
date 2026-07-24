@@ -35,3 +35,4 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] New and existing unit tests pass locally with my changes
 - [ ] Any dependent changes have been merged and published in downstream modules
+- [ ] **Accessibility (frontend changes):** I reviewed the `a11y` CI report and introduced no new WCAG 2.2 AA violations (N/A for backend-only changes)
